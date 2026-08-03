@@ -4,7 +4,7 @@
    >>> PERSONNALISE ICI (les 3 seules lignes à changer) <<<
    ========================================================= */
 const CONFIG = {
-  prenom: "Jedidia",                              // prénom (utilisé dans le code </prénom>)
+  prenom: "Ghyskaline",                              // prénom (utilisé dans le code </prénom>)
   nomComplet: "Jedidia Ghyskaline Louvouezo Nuchaku", // nom complet affiché sous le titre
   age: null,                                      // ex: 20  (ou null pour ne rien afficher)
   de: "quelqu'un qui croit en toi",               // signature (de la part de qui)
