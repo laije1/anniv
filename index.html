@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a12" />
+  <title>Joyeux anniversaire</title>
+  <meta name="description" content="Un anniversaire codé avec le cœur." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Poppins:wght@300;400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Canvas plein écran pour confettis + feux d'artifice -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Symboles de code qui flottent en fond -->
+  <div class="code-rain" id="codeRain" aria-hidden="true"></div>
+
+  <!-- ================= INTRO / TERMINAL ================= -->
+  <section id="intro" class="intro">
+    <div class="terminal" role="dialog" aria-label="Lancement de la fête">
+      <div class="terminal__bar">
+        <span class="dot dot--red"></span>
+        <span class="dot dot--yellow"></span>
+        <span class="dot dot--green"></span>
+        <span class="terminal__title">birthday — zsh</span>
+      </div>
+      <div class="terminal__body" id="termBody"></div>
+      <button id="launchBtn" class="launch-btn" aria-label="Lancer la fête">
+        <span class="launch-btn__glow"></span>
+        <span class="launch-btn__label">Appuie pour lancer la fête</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= CONTENU ================= -->
+  <main id="site" class="site" aria-hidden="true">
+
+    <!-- HERO -->
+    <header class="hero reveal">
+      <p class="hero__eyebrow">$ ./celebrate --today</p>
+      <h1 class="hero__title">
+        <span class="hero__line">Joyeux</span>
+        <span class="hero__line hero__line--accent">anniversaire</span>
+      </h1>
+      <p class="hero__name" id="heroName">&lt;/toi&gt;</p>
+      <p class="hero__full" id="heroFull"></p>
+      <p class="hero__age" id="heroAge" hidden></p>
+      <p class="hero__sub" id="heroSub"></p>
+      <a class="scroll-cue" href="#gallery" aria-label="Défiler vers le bas">
+        <span></span>
+      </a>
+    </header>
+
+    <!-- GALERIE PHOTOS -->
+    <section id="gallery" class="gallery">
+      <h2 class="section-title reveal"><span class="c-comment">//</span> quelques snapshots de toi</h2>
+      <div class="polaroids">
+        <figure class="polaroid reveal" data-tilt style="--r:-6deg">
+          <div class="polaroid__img">
+            <img src="assets/photo1.jpg" alt="Jedidia" loading="lazy" />
+            <span class="polaroid__develop"></span>
+            <span class="polaroid__shine"></span>
+          </div>
+          <figcaption>commit #1 — focus</figcaption>
+        </figure>
+        <figure class="polaroid reveal" data-tilt style="--r:4deg">
+          <div class="polaroid__img">
+            <img src="assets/photo2.jpg" alt="Jedidia" loading="lazy" />
+            <span class="polaroid__develop"></span>
+            <span class="polaroid__shine"></span>
+          </div>
+          <figcaption>commit #2 — sourire</figcaption>
+        </figure>
+        <figure class="polaroid reveal" data-tilt style="--r:-3deg">
+          <div class="polaroid__img">
+            <img src="assets/photo3.jpg" alt="Jedidia" loading="lazy" />
+            <span class="polaroid__develop"></span>
+            <span class="polaroid__shine"></span>
+          </div>
+          <figcaption>commit #3 — l'avenir</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- GATEAU -->
+    <section id="cake" class="cake-section">
+      <h2 class="section-title reveal"><span class="c-comment">//</span> souffle les bougies</h2>
+      <p class="cake-hint reveal" id="cakeHint">Appuie sur le gâteau</p>
+      <div class="cake" id="cake" role="button" tabindex="0" aria-label="Souffler les bougies">
+        <div class="cake__plate"></div>
+        <div class="cake__base cake__layer">
+          <div class="cake__drip"></div>
+          <span class="sprinkle"></span><span class="sprinkle"></span><span class="sprinkle"></span>
+          <span class="sprinkle"></span><span class="sprinkle"></span><span class="sprinkle"></span>
+          <span class="sprinkle"></span><span class="sprinkle"></span>
+        </div>
+        <div class="cake__top cake__layer">
+          <div class="candle"><span class="wax"></span><span class="flame"></span></div>
+          <div class="candle"><span class="wax"></span><span class="flame"></span></div>
+          <div class="candle"><span class="wax"></span><span class="flame"></span></div>
+        </div>
+      </div>
+      <p class="wish reveal" id="wish">Fais un vœu.</p>
+    </section>
+
+    <!-- MESSAGE / EDITEUR DE CODE -->
+    <section id="message" class="message">
+      <h2 class="section-title reveal"><span class="c-comment">//</span> lis ça jusqu'au bout</h2>
+      <div class="editor reveal">
+        <div class="editor__bar">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--yellow"></span>
+          <span class="dot dot--green"></span>
+          <span class="editor__file">message.js</span>
+        </div>
+        <div class="editor__body">
+          <div class="editor__gutter" id="gutter"></div>
+          <pre class="editor__code" id="code"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNATURE -->
+    <footer class="signature reveal">
+      <p class="signature__line">Avec tout mon respect et ma fierté,</p>
+      <p class="signature__from" id="signFrom">— quelqu'un qui croit en toi</p>
+      <button class="replay" id="replay" aria-label="Relancer les confettis">Relancer les confettis</button>
+    </footer>
+  </main>
+
+  <!-- Bouton son -->
+  <button id="soundToggle" class="sound-toggle" aria-label="Activer / couper le son" hidden>
+    <span class="sound-toggle__bars"><i></i><i></i><i></i><i></i></span>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
