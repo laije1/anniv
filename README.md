@@ -11,7 +11,7 @@ Ouvre `script.js` et modifie les **3 lignes** tout en haut :
 
 ```js
 const CONFIG = {
-  prenom: "Jedidia",                                   // prénom (utilisé dans </prénom>)
+  prenom: "Ghyskaline",                                   // prénom (utilisé dans </prénom>)
   nomComplet: "Jedidia Ghyskaline Louvouezo Nuchaku",  // nom complet sous le titre
   age: null,                                           // ex: 20  (ou null)
   de: "quelqu'un qui croit en toi",                    // signature
