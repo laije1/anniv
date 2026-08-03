@@ -88,7 +88,7 @@
     <!-- GATEAU -->
     <section id="cake" class="cake-section">
       <h2 class="section-title reveal"><span class="c-comment">//</span> souffle les bougies</h2>
-      <p class="cake-hint reveal" id="cakeHint">Appuie sur le gâteau</p>
+      <p class="cake-hint reveal" id="cakeHint">Appuie sur le gâteau pour souffler les bougies</p>
       <div class="cake" id="cake" role="button" tabindex="0" aria-label="Souffler les bougies">
         <div class="cake__plate"></div>
         <div class="cake__base cake__layer">
@@ -103,7 +103,11 @@
           <div class="candle"><span class="wax"></span><span class="flame"></span></div>
         </div>
       </div>
-      <p class="wish reveal" id="wish">Fais un vœu.</p>
+      <div class="wish" id="wish" aria-live="polite">
+        <p class="wish__title">Ton vœu s'est envolé vers le ciel</p>
+        <p class="wish__text">Dieu l'a entendu. Il l'a noté, Il s'en charge — et Il le réalisera, en Son temps.</p>
+        <p class="wish__amen">Amen</p>
+      </div>
     </section>
 
     <!-- MESSAGE / EDITEUR DE CODE -->

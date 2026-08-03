@@ -343,6 +343,30 @@ function playPop() {
   note(1320, 0.05, 0.2, 'triangle', 0.15);
 }
 
+// souffle sur les bougies : bruit filtré descendant ("whoosh")
+function playPuff() {
+  if (!soundOn || !audioCtx) return;
+  const dur = 0.45;
+  const buffer = audioCtx.createBuffer(1, Math.floor(audioCtx.sampleRate * dur), audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    data[i] = (Math.random() * 2 - 1) * (1 - i / data.length); // bruit qui s'éteint
+  }
+  const src = audioCtx.createBufferSource();
+  src.buffer = buffer;
+  const lp = audioCtx.createBiquadFilter();
+  lp.type = 'lowpass';
+  const t = audioCtx.currentTime;
+  lp.frequency.setValueAtTime(1500, t);
+  lp.frequency.exponentialRampToValueAtTime(280, t + dur);
+  const g = audioCtx.createGain();
+  g.gain.setValueAtTime(0.45, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+  src.connect(lp); lp.connect(g); g.connect(master);
+  src.start(t);
+  src.stop(t + dur + 0.05);
+}
+
 /* =========================================================
    5) Machine à écrire (hero + message)
    ========================================================= */
@@ -512,11 +536,27 @@ function setupCake() {
 
   const emitSmoke = () => {
     document.querySelectorAll('.candle').forEach(c => {
-      const s = document.createElement('span');
-      s.className = 'smoke';
-      c.appendChild(s);
-      setTimeout(() => s.remove(), 2300);
+      // deux volutes par bougie, décalées, qui partent dans deux sens
+      for (let k = 0; k < 2; k++) {
+        const s = document.createElement('span');
+        s.className = 'smoke';
+        s.style.animationDelay = (k * 0.14) + 's';
+        s.style.setProperty('--sx', (k ? rand(4, 9) : rand(-9, -4)) + 'px');
+        c.appendChild(s);
+        setTimeout(() => s.remove(), 2700);
+      }
     });
+  };
+
+  // envoie une lumière (le vœu) depuis les bougies vers le ciel
+  const sendWishToSky = (x, y) => {
+    if (REDUCED) return;
+    const light = document.createElement('div');
+    light.className = 'wish-light';
+    light.style.left = x + 'px';
+    light.style.top = y + 'px';
+    document.body.appendChild(light);
+    light.addEventListener('animationend', () => light.remove());
   };
 
   const blow = () => {
@@ -524,13 +564,28 @@ function setupCake() {
     blown = true;
     sparklerOn = false;
     cake.classList.add('blown');
-    $('#cakeHint').textContent = 'Voeu enregistré';
-    emitSmoke();
+    $('#cakeHint').textContent = '';
+
     const r = cake.getBoundingClientRect();
-    spawnConfetti(150, r.left + r.width / 2, r.top, 8);
-    for (let i = 0; i < 5; i++) setTimeout(() => launchRocket(rand(W * 0.2, W * 0.8)), i * 170);
-    if (soundOn) { playPop(); playFanfare(); }
-    setTimeout(() => $('#wish').classList.add('show'), 500);
+    const cx = r.left + r.width / 2;
+    const topY = r.top - 40;               // hauteur des flammes
+
+    // 1) le souffle : bruit doux + fumée
+    if (soundOn) playPuff();
+    emitSmoke();
+
+    // 2) le vœu s'élève vers le ciel
+    setTimeout(() => sendWishToSky(cx, topY), 350);
+
+    // 3) la célébration, une fois les bougies bien éteintes
+    setTimeout(() => {
+      spawnConfetti(150, cx, r.top, 8);
+      for (let i = 0; i < 5; i++) setTimeout(() => launchRocket(rand(W * 0.2, W * 0.8)), i * 160);
+      if (soundOn) { playPop(); playFanfare(); }
+    }, 750);
+
+    // 4) le message du vœu
+    setTimeout(() => $('#wish').classList.add('show'), 1500);
   };
   cake.addEventListener('click', blow);
   cake.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); blow(); } });
